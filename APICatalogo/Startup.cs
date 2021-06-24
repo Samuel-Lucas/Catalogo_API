@@ -24,6 +24,7 @@ namespace APICatalogo
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddScoped<ApiLoggingFilter>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<AppDbContext>(options =>
             options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
