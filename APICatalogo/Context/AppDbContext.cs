@@ -1,22 +1,34 @@
-﻿using Microsoft.EntityFrameworkCore;
-using APICatalogo.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using APICatalogo.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace APICatalogo.Context
 {
-    public class AppDbContext : DbContext   // Permite Coordenar as classes para o modelo de dados
+    public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)   // Operações (crud)
+        public AppDbContext(DbContextOptions<AppDbContext> options) 
             : base(options)
-        {
+        { }
+        public AppDbContext()
+        { }
 
-        }
-
-        // Mapeiam entidades
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Produto> Produtos { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appsettings.json")
+                   .Build();
+                var connectionString = configuration.
+                       GetConnectionString("DefaultConnection");
+
+                optionsBuilder.UseMySql(connectionString);
+            }
+        }
     }
 }

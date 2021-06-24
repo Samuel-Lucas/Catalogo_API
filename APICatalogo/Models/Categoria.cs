@@ -12,7 +12,6 @@ namespace APICatalogo.Models
         {
             Produtos = new Collection<Produto>();
         }
-
         [Key]
         public int CategoriaId { get; set; }
         [Required]
