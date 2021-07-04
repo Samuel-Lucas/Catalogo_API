@@ -1,4 +1,5 @@
 ﻿using APICatalogo.Context;
+using System.Threading.Tasks;
 
 namespace ApiCatalogo.Repository
 {
@@ -7,7 +8,6 @@ namespace ApiCatalogo.Repository
         private ProdutoRepository _produtoRepo;
         private CategoriaRepository _categoriaRepo;
         public AppDbContext _context;
-
         public UnitOfWork(AppDbContext contexto)
         {
             _context = contexto;
@@ -29,14 +29,15 @@ namespace ApiCatalogo.Repository
             }
         }
 
-        public void Commit()
+        public async Task Commit()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public void Dispose()
         {
             _context.Dispose();
         }
+
     }
 }

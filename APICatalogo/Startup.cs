@@ -1,7 +1,10 @@
+using ApiCatalogo.DTOs.Mappings;
 using ApiCatalogo.Extensions;
 using ApiCatalogo.Filters;
+using Microsoft.AspNetCore.Identity;
 using ApiCatalogo.Repository;
 using APICatalogo.Context;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +27,24 @@ namespace APICatalogo
         // Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             //services.AddScoped<ApiLoggingFilter>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddDbContext<AppDbContext>(options =>
             options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddControllers()
                     .AddNewtonsoftJson(options =>
@@ -61,6 +78,9 @@ namespace APICatalogo
 
             //adiciona o middleware de roteamento 
             app.UseRouting();
+
+            //adiciona o middleware de autenticação
+            app.UseAuthentication();
 
             //adiciona o middleware que habilita a autorizacao
             app.UseAuthorization();

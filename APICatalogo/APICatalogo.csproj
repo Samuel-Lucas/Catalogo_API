@@ -7,9 +7,14 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190531160050_Populadb.cs" />
     <Compile Remove="Migrations\20190531160050_Populadb.Designer.cs" />
+    <Compile Remove="Migrations\20200914202924_IncluiCategorias.cs" />
+    <Compile Remove="Migrations\20200914202924_IncluiCategorias.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview5-19227-01" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
